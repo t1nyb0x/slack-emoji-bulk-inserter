@@ -25,10 +25,10 @@
 
 **目的**: プロジェクトの初期化とビルド環境の構築
 
-- [ ] T001 npmプロジェクトを初期化し、package.jsonにtypescript・esbuild・@types/chromeを依存関係として追加
-- [ ] T002 [P] tsconfig.jsonを作成し、strict mode・target ESNext・module ESNext・outDir dist/を設定
-- [ ] T003 [P] esbuild.config.mjsを作成し、エントリポイントsrc/content.ts→dist/content.jsのバンドル設定を記述
-- [ ] T004 [P] manifest.jsonを作成し、Manifest V3・content_scripts（matches: `https://*.slack.com/customize/emoji*`）・最小限のpermissionsのみ宣言（FR-008対応: 不要な情報収集を防止）
+- [x] T001 npmプロジェクトを初期化し、package.jsonにtypescript・esbuild・@types/chromeを依存関係として追加
+- [x] T002 [P] tsconfig.jsonを作成し、strict mode・target ESNext・module ESNext・outDir dist/を設定
+- [x] T003 [P] esbuild.config.mjsを作成し、エントリポイントsrc/content.ts→dist/content.jsのバンドル設定を記述
+- [x] T004 [P] manifest.jsonを作成し、Manifest V3・content_scripts（matches: `https://*.slack.com/customize/emoji*`）・最小限のpermissionsのみ宣言（FR-008対応: 不要な情報収集を防止）
 
 ---
 
@@ -38,9 +38,9 @@
 
 **⚠️ 重要**: このフェーズが完了するまでユーザーストーリーの作業は開始不可
 
-- [ ] T005 [P] src/types.tsに型定義を作成（EmojiRegistrationItem・EmojiStatus列挙型・SlackApiConfig。data-model.mdに基づく）
-- [ ] T006 [P] src/utils/token.tsにAPIトークン抽出を実装（`<script>`タグのinnerTextから正規表現`/"?api_token"?\s*:\s*"([^"]+)"/`で`xoxs-`トークンを抽出。research.mdの決定事項2に基づく）
-- [ ] T007 [P] src/utils/normalize.tsに絵文字名正規化を実装（5ステップ: 拡張子除去→小文字変換→空白・ドットを`_`置換→不正文字除去→空文字列チェック。data-model.mdのバリデーションルールに基づく）
+- [x] T005 [P] src/types.tsに型定義を作成（EmojiRegistrationItem・EmojiStatus列挙型・SlackApiConfig。data-model.mdに基づく）
+- [x] T006 [P] src/utils/token.tsにAPIトークン抽出を実装（`<script>`タグのinnerTextから正規表現`/"?api_token"?\s*:\s*"([^"]+)"/`で`xoxs-`トークンを抽出。research.mdの決定事項2に基づく）
+- [x] T007 [P] src/utils/normalize.tsに絵文字名正規化を実装（5ステップ: 拡張子除去→小文字変換→空白・ドットを`_`置換→不正文字除去→空文字列チェック。data-model.mdのバリデーションルールに基づく）
 
 **チェックポイント**: 基盤準備完了 - ユーザーストーリーの実装を開始可能
 
@@ -56,10 +56,10 @@
 
 ### ユーザーストーリー1の実装
 
-- [ ] T008 [P] [US1] src/utils/emoji-api.tsにemoji.add API呼び出しを実装（fetch + FormData構築・token/name/mode/imageフィールド送信・レスポンスのokフィールド判定・エラーコード返却。contracts/emoji-add-api.mdに基づく）
-- [ ] T009 [P] [US1] src/ui/drop-zone.tsにドロップゾーンUIを実装（ページ上部への固定パネル挿入・dragenter/dragover/dragleave/dropイベント処理・ドラッグ中のハイライト表示・MIMEタイプフィルタリングでimage/png・image/jpeg・image/gifのみ受付）
-- [ ] T010 [P] [US1] src/ui/status-list.tsに絵文字リストUIを実装（絵文字名の一覧表示・リストへのアイテム追加・スクロール対応で100件以上表示可能）
-- [ ] T011 [US1] src/content.tsにContent Scriptエントリポイントを実装（トークン抽出→ドロップゾーン生成→ファイルドロップ時に正規化・バリデーション・キュー追加→キューの順次処理（500ms〜1秒の固定ディレイ）→処理中の追加ドロップはキュー末尾に追加して継続）
+- [x] T008 [P] [US1] src/utils/emoji-api.tsにemoji.add API呼び出しを実装（fetch + FormData構築・token/name/mode/imageフィールド送信・レスポンスのokフィールド判定・エラーコード返却。contracts/emoji-add-api.mdに基づく）
+- [x] T009 [P] [US1] src/ui/drop-zone.tsにドロップゾーンUIを実装（ページ上部への固定パネル挿入・dragenter/dragover/dragleave/dropイベント処理・ドラッグ中のハイライト表示・MIMEタイプフィルタリングでimage/png・image/jpeg・image/gifのみ受付）
+- [x] T010 [P] [US1] src/ui/status-list.tsに絵文字リストUIを実装（絵文字名の一覧表示・リストへのアイテム追加・スクロール対応で100件以上表示可能）
+- [x] T011 [US1] src/content.tsにContent Scriptエントリポイントを実装（トークン抽出→ドロップゾーン生成→ファイルドロップ時に正規化・バリデーション・キュー追加→キューの順次処理（500ms〜1秒の固定ディレイ）→処理中の追加ドロップはキュー末尾に追加して継続）
 
 **チェックポイント**: この時点で、画像をドロップすると絵文字がSlackに登録され、絵文字名がリストに表示される。ユーザーストーリー1は完全に機能し、独立してテスト可能であるべき
 
@@ -75,9 +75,9 @@
 
 ### ユーザーストーリー2の実装
 
-- [ ] T012 [US2] src/ui/status-list.tsにステータスアイコン描画を追加（EmojiStatusに対応するアイコン: pending=⏳・uploading=🔄・success=✅・failed=❌。各リストアイテムの先頭にアイコンを表示）
-- [ ] T013 [US2] src/content.tsにリアルタイムステータス更新を追加（キュー処理の各段階でEmojiRegistrationItemのstatusを更新し、status-list.tsの描画更新関数を呼び出す。失敗時はerrorCodeも設定）
-- [ ] T014 [US2] src/ui/status-list.tsに登録サマリー表示を追加（全アイテム処理完了後に成功件数・失敗件数を集計して表示。FR-011 Couldに対応）
+- [x] T012 [US2] src/ui/status-list.tsにステータスアイコン描画を追加（EmojiStatusに対応するアイコン: pending=⏳・uploading=🔄・success=✅・failed=❌。各リストアイテムの先頭にアイコンを表示）
+- [x] T013 [US2] src/content.tsにリアルタイムステータス更新を追加（キュー処理の各段階でEmojiRegistrationItemのstatusを更新し、status-list.tsの描画更新関数を呼び出す。失敗時はerrorCodeも設定）
+- [x] T014 [US2] src/ui/status-list.tsに登録サマリー表示を追加（全アイテム処理完了後に成功件数・失敗件数を集計して表示。FR-011 Couldに対応）
 
 **チェックポイント**: この時点で、ユーザーストーリー1と2の両方が独立して機能し、絵文字登録のステータスがリアルタイムに可視化されるべき
 
@@ -87,8 +87,8 @@
 
 **目的**: ドキュメント整備と最終検証
 
-- [ ] T015 [P] README.mdを更新（プロジェクト概要・セットアップ手順・ビルド方法・Chrome拡張機能のインストール手順・使い方を記述）
-- [ ] T016 quickstart.mdの手順に従い、ビルド→Chrome読み込み→カスタマイズページでの動作を検証
+- [x] T015 [P] README.mdを更新（プロジェクト概要・セットアップ手順・ビルド方法・Chrome拡張機能のインストール手順・使い方を記述）
+- [x] T016 quickstart.mdの手順に従い、ビルド→Chrome読み込み→カスタマイズページでの動作を検証
 
 ---
 

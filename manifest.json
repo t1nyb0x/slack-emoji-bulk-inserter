@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Slack Emoji Bulk Inserter",
+  "version": "1.0.0",
+  "description": "Slackカスタマイズページで絵文字を一括登録するChrome拡張機能",
+  "content_scripts": [
+    {
+      "matches": ["https://*.slack.com/customize/emoji*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": []
+}
