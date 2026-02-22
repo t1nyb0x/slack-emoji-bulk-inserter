@@ -1,2 +1,57 @@
-# slack-emoji-bulk-inserter
-Bulk register emojis in Slack
+# Slack Emoji Bulk Inserter
+
+Slackのカスタマイズページで絵文字を一括登録するChrome拡張機能です。
+
+## 機能
+
+- 画像ファイルをドラッグ＆ドロップで一括登録
+- ファイル名から絵文字名を自動生成（正規化対応）
+- 各絵文字の登録状態をリアルタイム表示（⏳→🔄→✅/❌）
+- 処理中に追加ドロップで登録キューに追加
+- 登録完了後に成功/失敗件数のサマリー表示
+
+## 対応画像形式
+
+PNG, JPEG, GIF
+
+## セットアップ
+
+```bash
+# 依存関係のインストール
+npm install
+
+# ビルド
+npm run build
+```
+
+## Chrome拡張機能のインストール
+
+1. `chrome://extensions/` を開く
+2. 右上の「デベロッパー モード」をオンにする
+3. 「パッケージ化されていない拡張機能を読み込む」をクリック
+4. プロジェクトの `dist/` ディレクトリを選択する
+
+## 使い方
+
+1. Slackのカスタマイズページ（`https://{workspace}.slack.com/customize/emoji`）を開く
+2. ページ上部のドロップゾーンに画像ファイルをドラッグ＆ドロップ
+3. 各絵文字のステータスがリアルタイムで更新されます
+
+## 絵文字名の変換ルール
+
+| ファイル名         | 絵文字名         |
+| ------------------ | ---------------- |
+| `hello_world.png`  | `:hello_world:`  |
+| `My Emoji.png`     | `:my_emoji:`     |
+| `Cool.Logo.v2.gif` | `:cool_logo_v2:` |
+
+## 開発
+
+```bash
+# ウォッチモード
+npm run watch
+```
+
+## ライセンス
+
+ISC
