@@ -12,6 +12,7 @@
 
 - Q: Slackは日本語絵文字名を受け付けるか？ → A: 公式ドキュメントではASCIIのみ。本改修では日本語文字をそのまま送信し、APIに判定を委ねる方針
 - Q: 漢字のromaji変換は必要か？ → A: 不要。変換せずそのまま送信する
+- Q: 内部 `/api/emoji.add` が日本語名を拒否した際に `error_bad_name_i18n` を返す可能性があるが、`error-messages.ts` に未登録のため対処するか？ → A: `error_bad_name_i18n` → `"絵文字名が無効です"` のマッピングを `error-messages.ts` に追加する（変更対象は `normalize.ts` + `error-messages.ts` の2ファイル）
 
 ## 目的（Why）
 
@@ -21,12 +22,12 @@
 
 ## 用語
 
-| 用語 | 定義 |
-| --- | --- |
-| ひらがな | 日本語の音節文字（U+3040-U+309F）。例: あ、い、う |
-| カタカナ | 日本語の音節文字（U+30A0-U+30FF）。例: ア、イ、ウ |
-| 漢字 | 中国起源の表意文字（CJK統合漢字）。例: 笑、顔、猫 |
-| 正規化 | ファイル名をSlack絵文字名として適切な形式に変換する処理 |
+| 用語     | 定義                                                    |
+| -------- | ------------------------------------------------------- |
+| ひらがな | 日本語の音節文字（U+3040-U+309F）。例: あ、い、う       |
+| カタカナ | 日本語の音節文字（U+30A0-U+30FF）。例: ア、イ、ウ       |
+| 漢字     | 中国起源の表意文字（CJK統合漢字）。例: 笑、顔、猫       |
+| 正規化   | ファイル名をSlack絵文字名として適切な形式に変換する処理 |
 
 ## ユーザーシナリオとテスト _（必須）_
 
@@ -66,10 +67,11 @@
 - **FR-304**: `normalizeEmojiName()` は、CJK統合漢字拡張A（U+3400-U+4DBF）をサニタイズ時に除去してはならない（MUST NOT）
 - **FR-305**: `normalizeEmojiName()` は、CJK互換漢字（U+F900-U+FAFF）をサニタイズ時に除去してはならない（MUST NOT）
 - **FR-306**: 既存のASCII正規化ルール（小文字化、空白→`_`、英小文字・数字・ハイフン・アンダースコアの保持）は維持しなければならない（MUST）
+- **FR-307**: `src/ui/error-messages.ts` に `error_bad_name_i18n` → `"絵文字名が無効です"` のマッピングを追加しなければならない（MUST）
 
 ### キーエンティティ
 
-- **変更対象**: `normalizeEmojiName()` 関数（`src/utils/normalize.ts`）の sanitize regex のみ
+- **変更対象**: `normalizeEmojiName()` 関数（`src/utils/normalize.ts`）の sanitize regex + `src/ui/error-messages.ts` の `ERROR_MESSAGES` マッピング
 
 ## 仮定
 
