@@ -9,6 +9,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   network_error: "ネットワークエラーが発生しました",
   no_image_uploaded: "画像ファイルのアップロードに失敗しました",
   invalid_name: "絵文字名が無効です",
+  error_bad_name_i18n: "絵文字名が無効です",
   duplicate_in_queue: "同じ名前の絵文字がキュー内に存在します",
 };
 

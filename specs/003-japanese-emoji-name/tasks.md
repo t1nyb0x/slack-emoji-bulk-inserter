@@ -35,8 +35,8 @@
 
 ### ユーザーストーリー1の実装
 
-- [ ] T001 [P] [US1] `src/utils/normalize.ts` の sanitize regex（ステップ4）を `/[^a-z0-9\-_]/g` から `/[^a-z0-9\-_\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]/g` に変更し、JSDocのステップ4の説明を「英小文字・数字・ハイフン・アンダースコア・日本語文字（ひらがな・カタカナ・漢字）以外を除去」に更新する（contracts/normalize-api.md、data-model.md のUnicode範囲に基づく）
-- [ ] T002 [P] [US1] `src/ui/error-messages.ts` の `ERROR_MESSAGES` に `error_bad_name_i18n: "絵文字名が無効です"` エントリを追加する（spec.md FR-307、明確化事項「Slackが日本語名を拒否した場合に `error_bad_name_i18n` を返す可能性がある」に基づく）
+- [x] T001 [P] [US1] `src/utils/normalize.ts` の sanitize regex（ステップ4）を `/[^a-z0-9\-_]/g` から `/[^a-z0-9\-_\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]/g` に変更し、JSDocのステップ4の説明を「英小文字・数字・ハイフン・アンダースコア・日本語文字（ひらがな・カタカナ・漢字）以外を除去」に更新する（contracts/normalize-api.md、data-model.md のUnicode範囲に基づく）
+- [x] T002 [P] [US1] `src/ui/error-messages.ts` の `ERROR_MESSAGES` に `error_bad_name_i18n: "絵文字名が無効です"` エントリを追加する（spec.md FR-307、明確化事項「Slackが日本語名を拒否した場合に `error_bad_name_i18n` を返す可能性がある」に基づく）
 
 **チェックポイント**: T001・T002 完了後に `npm run build` が成功し、日本語ファイル名のドロップでステータスリストに日本語絵文字名が表示される
 
@@ -46,7 +46,7 @@
 
 **目的**: ビルド確認とコンスティテューション遵守の最終検証
 
-- [ ] T003 `npm run build` を実行し、TypeScriptコンパイルエラーがないことを確認する
+- [x] T003 `npm run build` を実行し、TypeScriptコンパイルエラーがないことを確認する
 - [ ] T004 quickstart.mdのテストケース6件（`笑顔.png`・`おはよう.png`・`ネコ.png`・`Hello_世界.png`・`test.png`・`My Emoji.png`）を実機で確認し、既存ASCIIファイル名の動作に変化がないことをSC-304として検証する
 
 ---
