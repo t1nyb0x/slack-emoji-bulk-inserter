@@ -4,6 +4,7 @@ export const EmojiStatus = {
   Uploading: "uploading",
   Success: "success",
   Failed: "failed",
+  Skipped: "skipped",
 } as const;
 
 export type EmojiStatus = (typeof EmojiStatus)[keyof typeof EmojiStatus];

@@ -43,6 +43,10 @@ function handleFilesDropped(files: File[], apiToken: string): void {
   }
 }
 
+function isDuplicateInQueue(emojiName: string): boolean {
+  return registrationQueue.some((item) => item.emojiName === emojiName);
+}
+
 function filesToRegistrationItems(files: File[]): EmojiRegistrationItem[] {
   const items: EmojiRegistrationItem[] = [];
 
@@ -53,12 +57,16 @@ function filesToRegistrationItems(files: File[]): EmojiRegistrationItem[] {
       continue;
     }
 
+    const isDuplicate =
+      isDuplicateInQueue(emojiName) ||
+      items.some((item) => item.emojiName === emojiName);
+
     items.push({
       file,
       originalFileName: file.name,
       emojiName,
-      status: EmojiStatus.Pending,
-      errorCode: null,
+      status: isDuplicate ? EmojiStatus.Skipped : EmojiStatus.Pending,
+      errorCode: isDuplicate ? "duplicate_in_queue" : null,
     });
   }
 
