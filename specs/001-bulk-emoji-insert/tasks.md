@@ -28,7 +28,7 @@
 - [ ] T001 npmプロジェクトを初期化し、package.jsonにtypescript・esbuild・@types/chromeを依存関係として追加
 - [ ] T002 [P] tsconfig.jsonを作成し、strict mode・target ESNext・module ESNext・outDir dist/を設定
 - [ ] T003 [P] esbuild.config.mjsを作成し、エントリポイントsrc/content.ts→dist/content.jsのバンドル設定を記述
-- [ ] T004 [P] manifest.jsonを作成し、Manifest V3・content_scripts（matches: `https://*.slack.com/customize/emoji*`）・permissions設定を記述
+- [ ] T004 [P] manifest.jsonを作成し、Manifest V3・content_scripts（matches: `https://*.slack.com/customize/emoji*`）・最小限のpermissionsのみ宣言（FR-008対応: 不要な情報収集を防止）
 
 ---
 
