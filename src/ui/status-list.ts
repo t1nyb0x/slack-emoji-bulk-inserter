@@ -1,5 +1,6 @@
 import type { EmojiRegistrationItem } from "../types";
 import { EmojiStatus } from "../types";
+import { getErrorMessage } from "./error-messages";
 
 const LIST_CONTAINER_ID = "slack-emoji-bulk-status-list";
 const SUMMARY_ID = "slack-emoji-bulk-summary";
@@ -57,6 +58,14 @@ export function updateItemStatus(
   if (statusSpan) {
     statusSpan.textContent = getStatusIcon(item.status);
   }
+
+  const isErrorStatus =
+    item.status === EmojiStatus.Failed || item.status === EmojiStatus.Skipped;
+
+  const errorSpan = row.querySelector("[data-role='error']");
+  if (errorSpan && isErrorStatus) {
+    errorSpan.textContent = getErrorMessage(item.errorCode);
+  }
 }
 
 function buildItemRow(
@@ -82,10 +91,44 @@ function buildItemRow(
   const nameSpan = document.createElement("span");
   nameSpan.textContent = `:${item.emojiName}:`;
 
+  const errorSpan = document.createElement("span");
+  errorSpan.setAttribute("data-role", "error");
+  Object.assign(errorSpan.style, {
+    color: "#D32F2F",
+    fontSize: "12px",
+    marginLeft: "4px",
+  });
+
+  const thumbnail = buildThumbnail(item.file, item.emojiName);
+
   row.appendChild(statusSpan);
+  row.appendChild(thumbnail);
   row.appendChild(nameSpan);
+  row.appendChild(errorSpan);
 
   return row;
+}
+
+function buildThumbnail(file: File, emojiName: string): HTMLImageElement {
+  const img = document.createElement("img");
+  const blobUrl = URL.createObjectURL(file);
+
+  img.setAttribute("data-role", "thumbnail");
+  img.src = blobUrl;
+  img.width = 24;
+  img.height = 24;
+  img.alt = `:${emojiName}:`;
+  Object.assign(img.style, {
+    objectFit: "contain",
+    borderRadius: "2px",
+    flexShrink: "0",
+  });
+
+  img.onload = (): void => {
+    URL.revokeObjectURL(blobUrl);
+  };
+
+  return img;
 }
 
 function buildItemId(index: number): string {
@@ -98,6 +141,7 @@ function getStatusIcon(status: string): string {
     uploading: "🔄",
     success: "✅",
     failed: "❌",
+    skipped: "⚠️",
   };
 
   return icons[status] ?? "❓";
@@ -119,8 +163,11 @@ export function showSummary(items: readonly EmojiRegistrationItem[]): void {
   const failedCount = items.filter(
     (item) => item.status === EmojiStatus.Failed,
   ).length;
+  const skippedCount = items.filter(
+    (item) => item.status === EmojiStatus.Skipped,
+  ).length;
 
-  const summary = buildSummaryElement(successCount, failedCount);
+  const summary = buildSummaryElement(successCount, failedCount, skippedCount);
   listContainer.insertBefore(summary, listContainer.firstChild);
 }
 
@@ -132,19 +179,24 @@ function removePreviousSummary(): void {
 function buildSummaryElement(
   successCount: number,
   failedCount: number,
+  skippedCount: number,
 ): HTMLDivElement {
   const summary = document.createElement("div");
   summary.id = SUMMARY_ID;
+  const hasFailure = failedCount > 0;
+  const hasSkipped = skippedCount > 0;
+  const bgColor = hasFailure || hasSkipped ? "#FFF3CD" : "#D4EDDA";
+
   Object.assign(summary.style, {
     padding: "8px 12px",
     marginBottom: "8px",
-    backgroundColor: failedCount > 0 ? "#FFF3CD" : "#D4EDDA",
+    backgroundColor: bgColor,
     borderRadius: "4px",
     fontSize: "13px",
     fontWeight: "bold",
   });
 
-  summary.textContent = `完了: ✅ ${successCount} 件成功 / ❌ ${failedCount} 件失敗`;
+  summary.textContent = `完了: ✅ ${successCount} 件成功 / ❌ ${failedCount} 件失敗 / ⚠️ ${skippedCount} 件スキップ`;
 
   return summary;
 }
