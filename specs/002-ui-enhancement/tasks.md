@@ -66,7 +66,7 @@
 **独立テスト**: 同じファイル名の画像を2回ドロップし、2回目が ⚠️ 付きでスキップされることを確認する
 
 - [ ] T006 [US3] `src/content.ts` に `isDuplicateInQueue(emojiName: string): boolean` 関数を追加。`registrationQueue` 内に同じ `emojiName` を持つアイテムが存在するか `Array.some()` でチェックする
-- [ ] T007 [US3] `src/content.ts` の `filesToRegistrationItems()` を修正。正規化後に `isDuplicateInQueue()` を呼び出し、重複がある場合は `status: EmojiStatus.Skipped, errorCode: "duplicate_in_queue"` でアイテムを作成する
+- [ ] T007 [US3] `src/content.ts` の `filesToRegistrationItems()` を修正。正規化後に `isDuplicateInQueue()` を呼び出し、**さらに同一バッチ内の `items` 配列にも同じ `emojiName` が存在するかチェック**する。いずれかで重複がある場合は `status: EmojiStatus.Skipped, errorCode: "duplicate_in_queue"` でアイテムを作成する
 - [ ] T008 [US3] `src/ui/status-list.ts` の `getStatusIcon()` に `skipped: "⚠️"` を追加
 - [ ] T009 [US3] `src/ui/status-list.ts` の `showSummary()` を修正し、`Skipped` ステータスのカウントを追加。サマリーテキストを `"完了: ✅ {n}件成功 / ❌ {n}件失敗 / ⚠️ {n}件スキップ"` に更新。背景色ロジック: 失敗あり→`#FFF3CD`、失敗なしスキップあり→`#FFF3CD`、全件成功→`#D4EDDA`
 

@@ -71,8 +71,8 @@ export interface EmojiRegistrationItem {
 
 ### 重複検知ルール
 
-- **スコープ**: `registrationQueue` 配列内の全アイテム
+- **スコープ**: `registrationQueue` 配列内の全アイテム **および** `filesToRegistrationItems()` 内で作成中の items 配列
 - **比較対象**: `emojiName` フィールド（正規化後の文字列）
 - **判定タイミング**: `filesToRegistrationItems()` 実行時（ドロップ直後）
-- **判定条件**: 同じ `emojiName` を持つアイテムが `registrationQueue` に既に存在する場合
+- **判定条件**: 同じ `emojiName` を持つアイテムが `registrationQueue` または同一バッチの items 配列に既に存在する場合
 - **結果**: ステータスを `Skipped`、`errorCode` を `"duplicate_in_queue"` に設定
